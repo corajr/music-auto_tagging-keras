@@ -2,6 +2,7 @@
 from argparse import Namespace
 import models as my_models
 from keras import backend as K
+import os
 import pdb
 import numpy as np
 
@@ -30,10 +31,8 @@ def main(mode, conv_until=None):
     # set in [0, 1, 2, 3, 4] if feature extracting.
 
     model = my_models.build_convnet_model(args=args, last_layer=last_layer)
-    model.load_weights('weights_layer{}_{}.hdf5'.format(conv_until, K._backend),
+    model.load_weights(os.path.join(os.path.dirname(__file__), 'weights_layer{}_{}.hdf5'.format(conv_until, K._backend)),
                        by_name=True)
-    model.layers[1].summary()
-    model.summary()
     # and use it!
     return model
 
